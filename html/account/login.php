@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="checkbox" id="showPassword" onclick="togglePasswordVisibility()"> 显示密码<br>
             <button type="submit">登录</button>
         </form>
-        <a href="register_combined.php">没有账号？去注册</a>
+        <a href="register.php">没有账号？去注册</a>
     </div>
 </body>
 </html>
