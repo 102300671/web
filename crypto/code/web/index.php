@@ -39,7 +39,7 @@ $conn->close();
     </header>
     <main>
        <ul>
-           <li><a href="ci/ci_1/ci_1.php">ci_1<?php echo isset($problem_status['web/ci/ci_1']) && $problem_status['web/ci/ci_1'] ? '(已完成)' : '(未完成)'; ?></a></li>
+           <li><a href="ci/ci_1/index.php">ci_1<?php echo isset($problem_status['web/ci/ci_1']) && $problem_status['web/ci/ci_1'] ? '(已完成)' : '(未完成)'; ?></a></li>
        </ul>
     </main>
 </body>
