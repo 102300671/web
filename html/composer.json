@@ -1,0 +1,14 @@
+{
+    "name": "crypto/crypto",
+    "description": "A simple PHP web app of crypto with MySQL",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "lv",
+            "email": "jy2193807541@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}

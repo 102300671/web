@@ -1,0 +1,16 @@
+2025-06-18 02:08:44	::1	root	crypto/rsa/rsa_1	flag{this_is_a_fake_flag_for_testing_purposes_only}	正确
+2025-06-18 02:56:03	::1	root	web/ci	1&whaomi	错误
+2025-06-18 03:19:25	::1	root	web/ci	1&whaomi	错误
+2025-06-18 03:19:40	::1	root	web/ci	1&ls	错误
+2025-06-18 03:20:17	::1	root	web/ci	1&echo	错误
+2025-06-18 03:20:23	::1	root	web/ci	&echo	错误
+2025-06-18 03:20:33	::1	root	web/ci	&whaomi	错误
+2025-06-18 03:22:39	::1	root	web/ci	&php echo file_get_contents('flag.php'); &	错误
+2025-06-18 03:22:47	::1	root	web/ci	&php echo file_get_contents('flag.php'); &	错误
+2025-06-18 03:24:42	::1	root	web/ci	&php echo file_get_contents('flag.php'); &	错误
+2025-06-18 03:26:22	::1	root	web/ci	&php return file_get_contents('flag.php'); &	错误
+2025-06-18 03:30:36	::1	root	web/ci	&php echo include('flag.php'); &	错误
+2025-06-18 03:31:38	::1	root	web/ci	&php echo include('flag.php'); &	错误
+2025-06-18 03:33:15	::1	root	web/ci	&phpecho include 'flag.php';&	错误
+2025-06-18 03:36:18	::1	root	web/ci	&php echo include('flag.php'); &	错误
+2025-06-18 03:47:24	::1	root	web/ci	flag{this_web_ci_?}	正确

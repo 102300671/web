@@ -1,0 +1,9 @@
+blinker==1.9.0
+click @ file:///var/www/html/app/click-8.2.1-py3-none-any.whl#sha256=61a3265b914e850b85317d0b3109c7f8cd35a670f963866005d6ef1d5175a12b
+Flask @ file:///var/www/html/app/flask-3.1.1-py3-none-any.whl#sha256=07aae2bb5eaf77993ef57e357491839f5fd9f4dc281593a81a9e4d79a24f295c
+flask-cors @ file:///var/www/html/app/flask_cors-6.0.1-py3-none-any.whl#sha256=c7b2cbfb1a31aa0d2e5341eea03a6805349f7a61647daee1a15c46bbe981494c
+itsdangerous==2.2.0
+Jinja2==3.1.6
+MarkupSafe @ file:///var/www/html/app/MarkupSafe-3.0.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl#sha256=e17c96c14e19278594aa4841ec148115f9c7615a47382ecb6b82bd8fea3ab0c8
+mysql-connector-python==9.3.0
+Werkzeug==3.1.3

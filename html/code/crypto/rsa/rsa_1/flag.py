@@ -1,0 +1,1 @@
+flag=b"flag{this_is_a_fake_flag_for_testing_purposes_only}"
