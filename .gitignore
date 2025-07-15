@@ -1,1 +1,4 @@
 html/app/.venv
+wordpress
+library/node_modules
+library/account/vendor

@@ -1,137 +1,140 @@
-<?php
-// 启动会话用于用户认证和消息存储
-session_start();
-
-// 数据库配置 - 与注册文件保持一致
-$servername = "localhost";
-$db_username = "library";
-$db_password = "library";
-$dbname = "library_db";
-
-// 连接数据库
-$conn = new mysqli($servername, $db_username, $db_password, $dbname);
-if ($conn->connect_error) {
-    die("数据库连接失败: " . $conn->connect_error);
-}
-
-// 处理登录表单提交
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
-    $username = trim($_POST["username"]);
-    $password = $_POST["password"];
-    $errors = [];
-
-    // 验证表单数据
-    if (empty($username)) {
-        $errors[] = "请输入用户名";
-    }
-    if (empty($password)) {
-        $errors[] = "请输入密码";
-    }
-
-    // 如果验证通过，查询用户
-    if (empty($errors)) {
-        $stmt = $conn->prepare("SELECT id, username, password FROM users WHERE username = ?");
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $stmt->store_result();
-
-        // 检查用户是否存在
-        if ($stmt->num_rows == 1) {
-            $stmt->bind_result($id, $db_username, $db_password);
-            $stmt->fetch();
-
-            // 验证密码
-            if (password_verify($password, $db_password)) {
-                // 密码正确，设置会话变量
-                $_SESSION["user_id"] = $id;
-                $_SESSION["username"] = $db_username;
-                $_SESSION["logged_in"] = true;
-
-                // 重定向到图书馆主页或仪表板
-                header("Location: /book/index.php");
-                exit();
-            } else {
-                $errors[] = "用户名或密码不正确";
-            }
-        } else {
-            $errors[] = "用户名或密码不正确";
-        }
-        $stmt->close();
-    }
-
-    // 存储错误信息并返回登录页面
-    $_SESSION["errors"] = $errors;
-    header("Location: login.php");
-    exit();
-}
-
-$conn->close();
-?>
-
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>依依家的猫窝-登录</title>
-    <link rel="stylesheet" href="/css/account.css">
+  <meta charset="UTF-8" />
+  <title>登录</title>
+  <link rel="stylesheet" href="/css/account.css">
 </head>
 <body>
-    <header>
-        <h1>依依家的猫窝</h1>
-    </header>
-    <main>
-        <div class="container">
-            <h2>用户登录</h2>
-            <?php if (isset($_SESSION['errors'])): ?>
-            <div class="error-messages">
-                <?php foreach ($_SESSION['errors'] as $error): ?>
-                    <p><?php echo $error; ?></p>
-                <?php endforeach; ?>
-                <?php unset($_SESSION['errors']); ?>
-            </div>
-            <?php endif; ?>
-            <?php if (isset($_SESSION['success'])): ?>
-            <div class="success-message">
-                <p><?php echo $_SESSION['success']; ?></p>
-                <?php unset($_SESSION['success']); ?>
-            </div>
-            <?php endif; ?>
-            <form action="login.php" method="post">
-                <div class="form-group">
-                    <label for="username">用户名:</label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">密码:</label>
-                    <div class="password-wrapper">
-                        <input type="password" id="password" name="password" required>
-                        <span class="toggle-password" onclick="togglePasswordVisibility('password')">👁️</span>
-                    </div>
-                </div>
-                <script>
-                function togglePasswordVisibility(fieldId) {
-                    const passwordField = document.getElementById(fieldId);
-                    const toggleBtn = passwordField.parentElement.querySelector('.toggle-password');
-                    
-                    if (passwordField.type === 'password') {
-                        passwordField.type = 'text';
-                        toggleBtn.textContent = '隐藏密码';
-                    } else {
-                        passwordField.type = 'password';
-                        toggleBtn.textContent = '显示密码';
-                    }
-                }
-                </script>
-                <div class="form-group">
-                    <button type="submit" name="login">登录</button>
-                </div>
-                <p>没有账号？<a href="register.php">立即注册</a></p>
-            </form>
+  <header>
+    <h1>依依家的猫窝</h1>
+  </header>
+  <main>
+    <div class="container">
+      <h2>登录</h2>
+      <div id="status"></div>
+      <form method="post" action="progress_login.php">
+        <input type="hidden" name="type" value="login">
+        <div class="form-group">
+          <label for="login-identifier" id="login-identifier-label">用户名/邮箱：</label>
+          <input type="text" id="login-identifier" name="login-identifier" required>
         </div>
-    </main>
-    <footer>
-        <p>&copy; 2025 依依家的猫窝</p>
-    </footer>
+        <div class="form-group" id="password-group">
+          <label for="password">密码：</label>
+          <input type="password" id="password" name="password">
+        </div>
+        <div id="verification-group" style="display: none;">
+          <div class="form-group">
+            <label for="email_code">验证码：</label>
+            <input type="text" id="email_code" name="email_code" maxlength="6">
+          </div>
+          <button type="button" id="send-code-btn">发送验证码</button>
+          <span id="countdown"></span>
+        </div>
+        <input type="hidden" id="login-type" name="login-type" value="password">
+        <button type="submit">登录</button>
+        <button type="button" id="switch-login-type">使用邮箱验证码登录</button>
+      </form>
+    </div>
+  </main>
+  <script>
+    const loginIdentifierInput = document.getElementById('login-identifier');
+    const passwordGroup = document.getElementById('password-group');
+    const verificationGroup = document.getElementById('verification-group');
+    const sendCodeBtn = document.getElementById('send-code-btn');
+    const countdownSpan = document.getElementById('countdown');
+    const statusDiv = document.getElementById('status');
+    const loginTypeInput = document.getElementById('login-type');
+    const switchLoginTypeBtn = document.getElementById('switch-login-type');
+
+    switchLoginTypeBtn.onclick = function() {
+      const label = document.getElementById('login-identifier-label');
+      if (loginTypeInput.value === 'password') {
+        passwordGroup.style.display = 'none';
+        verificationGroup.style.display = 'block';
+        loginTypeInput.value = 'code';
+        switchLoginTypeBtn.textContent = '使用密码登录';
+        label.textContent = '邮箱：';
+            const email = loginIdentifierInput.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+              loginIdentifierInput.value = '';
+            }
+      } else {
+        passwordGroup.style.display = 'block';
+        verificationGroup.style.display = 'none';
+        loginTypeInput.value = 'password';
+        switchLoginTypeBtn.textContent = '使用邮箱验证码登录';
+        label.textContent = '用户名/邮箱：';
+      }
+    };
+
+    // 发送验证码
+    sendCodeBtn.onclick = function() {
+      const email = loginIdentifierInput.value;
+      if (!email) {
+        showStatus('请先填写邮箱', 'error');
+        return;
+      }
+
+      // 简单邮箱格式验证
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        showStatus('请输入有效的邮箱地址', 'error');
+        return;
+      }
+
+      sendCodeBtn.disabled = true;
+      sendCodeBtn.textContent = '发送中...';
+
+      fetch('send_code.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'email=' + encodeURIComponent(email) + '&type=login'
+      })
+      .then(res => res.text())
+      .then(msg => {
+        if (msg === '验证码已发送') {
+          showStatus(msg, 'success');
+          startCountdown();
+        } else {
+          showStatus(msg, 'error');
+          sendCodeBtn.disabled = false;
+          sendCodeBtn.textContent = '发送验证码';
+        }
+      })
+      .catch(err => {
+        showStatus('发送失败，请稍后重试', 'error');
+        sendCodeBtn.disabled = false;
+        sendCodeBtn.textContent = '发送验证码';
+      });
+    };
+
+    // 显示状态消息
+    function showStatus(message, type) {
+      statusDiv.textContent = message;
+      statusDiv.className = type;
+      statusDiv.style.display = 'block';
+      setTimeout(() => {
+        statusDiv.style.display = 'none';
+      }, 3000);
+    }
+
+    // 倒计时功能
+    function startCountdown() {
+      let countdown = 60;
+      countdownSpan.textContent = `(${countdown}秒后可重新发送)`;
+      const timer = setInterval(() => {
+        countdown--;
+        countdownSpan.textContent = `(${countdown}秒后可重新发送)`;
+        if (countdown <= 0) {
+          clearInterval(timer);
+          countdownSpan.textContent = '';
+          sendCodeBtn.disabled = false;
+          sendCodeBtn.textContent = '发送验证码';
+        }
+      }, 1000);
+    }
+  </script>
 </body>
 </html>

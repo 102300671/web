@@ -1,144 +1,129 @@
-<?php
-// 启动会话用于存储错误信息
-session_start();
-
-// 数据库配置 - 请根据实际情况修改
-$servername = "localhost";
-$dbname = "library_db";
-
-// 连接数据库
-$conn = new mysqli($servername, 'library', 'library', $dbname);
-if ($conn->connect_error) {
-    die("数据库连接失败: " . $conn->connect_error);
-}
-
-// 处理表单提交
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["register"])) {
-    $username = trim($_POST["username"]);
-    $email = trim($_POST["email"]);
-    $password = $_POST["password"];
-    $confirm_password = $_POST["confirm_password"];
-    $errors = [];
-
-    // 验证表单数据
-    if (strlen($username) < 3 || strlen($username) > 20) {
-        $errors[] = "用户名长度必须在3-20个字符之间";
-    }
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "请输入有效的邮箱地址";
-    }
-    if (strlen($password) < 6) {
-        $errors[] = "密码长度不能少于6个字符";
-    }
-    if ($password !== $confirm_password) {
-        $errors[] = "两次输入的密码不一致";
-    }
-
-    // 检查用户名和邮箱是否已存在
-    $stmt = $conn->prepare("SELECT id FROM users WHERE username = ? OR email = ?");
-    $stmt->bind_param("ss", $username, $email);
-    $stmt->execute();
-    $stmt->store_result();
-    if ($stmt->num_rows > 0) {
-        $errors[] = "用户名或邮箱已被注册";
-    }
-    $stmt->close();
-
-    // 如果没有错误，则插入用户数据
-    if (empty($errors)) {
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $username, $email, $hashed_password);
-
-        if ($stmt->execute()) {
-            $_SESSION["success"] = "注册成功，请登录";
-            header("Location: login.php");
-            exit();
-        } else {
-            $errors[] = "注册失败: " . $conn->error;
-        }
-        $stmt->close();
-    }
-
-    // 存储错误信息并返回注册页面
-    $_SESSION["errors"] = $errors;
-    }
-
-    // 显示注册表单
-    ?>
-    <!DOCTYPE html>
-    <html lang="zh-CN">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>依依家的猫窝-注册</title>
-        <link rel="stylesheet" href="/css/account.css">
-    </head>
-    <body>
-        <header>
-            <h1>依依家的猫窝</h1>
-        </header>
-        <main>
-            <div class="container">
-                <h2>用户注册</h2>
-                <?php if (!empty($errors)): ?>
-                    <div class="error-messages">
-                    <?php foreach ($errors as $error): ?>
-                        <p><?php echo $error; ?></p>
-                    <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
-                <form action="register.php" method="post">
-                    <div class="form-group">
-                        <label for="username">用户名:</label>
-                        <input type="text" id="username" name="username" required minlength="3" maxlength="20" value="<?php echo isset($username) ? htmlspecialchars($username) : ''; ?>">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">邮箱:</label>
-                        <input type="email" id="email" name="email" required value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>">
-                    </div>
-                    <div class="form-group">
-                        <label for="password">密码:</label>
-                        <div class="password-wrapper">
-                            <input type="password" id="confirm_password" name="confirm_password" required minlength="6">
-                            <span class="toggle-password" onclick="togglePasswordVisibility('confirm_password')">👁️</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="confirm_password">确认密码:</label>
-                        <div class="password-wrapper">
-                            <input type="password" id="confirm_password" name="confirm_password" required minlength="6">
-                            <span class="toggle-password" onclick="togglePasswordVisibility('confirm_password')">👁️</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" name="register">注册</button>
-                    </div>
-                    <p>已有账号？<a href="login.php">立即登录</a></p>
-                </form>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>注册</title>
+  <link rel="stylesheet" href="/css/account.css">
+</head>
+<body>
+  <header>
+    <h1>依依家的猫窝</h1>
+  </header>
+  <main>
+    <div class="container">
+      <h2>注册</h2>
+      <div id="status"></div>
+        <form method="post" action="progress_register.php">
+            <input type="hidden" name="type" value="register">
+          <div class="form-group">
+            <label for="username">用户名：</label>
+            <input type="text" id="username" name="username" required minlength="3" maxlength="20">
+            <small>3-20个字符</small>
+          </div>
+          <div class="form-group">
+            <label for="password">密码：</label>
+            <input type="password" id="password" name="password" required minlength="8">
+            <small>至少8个字符</small>
+          </div>
+          <div class="form-group">
+            <label for="email">邮箱（可选）：</label>
+            <input type="email" id="email" name="email">
+          </div>
+          <div id="verification-group" style="display: none;">
+            <div class="form-group">
+              <label for="email_code">验证码：</label>
+              <input type="text" id="email_code" name="email_code" maxlength="6">
             </div>
-        </main>
-        <footer>
-            <p>&copy; 2025 依依家的猫窝</p>
-        </footer>
-    </body>
-    </html>
-    <?php
+            <button type="button" id="send-code-btn">发送验证码</button>
+            <span id="countdown"></span>
+          </div>
+          <button type="submit">注册</button>
+        </form>
+    </div>
+  </main>
+  <script>
+    // 显示/隐藏验证码区域
+    const emailInput = document.getElementById('email');
+    const verificationGroup = document.getElementById('verification-group');
+    const emailCodeInput = document.getElementById('email_code');
+    const sendCodeBtn = document.getElementById('send-code-btn');
+    const countdownSpan = document.getElementById('countdown');
+    const statusDiv = document.getElementById('status');
 
-$conn->close();
-?>
+    emailInput.addEventListener('input', function() {
+        verificationGroup.style.display = this.value ? 'block' : 'none';
+        if (!this.value) {
+            emailCodeInput.removeAttribute('required');
+        }
+    });
 
-<script>
-function togglePasswordVisibility(fieldId) {
-    const passwordField = document.getElementById(fieldId);
-    const toggleBtn = passwordField.parentElement.querySelector('.toggle-password');
-    
-    if (passwordField.type === 'password') {
-        passwordField.type = 'text';
-        toggleBtn.textContent = '隐藏密码';
-    } else {
-        passwordField.type = 'password';
-        toggleBtn.textContent = '显示密码';
+    // 发送验证码
+    sendCodeBtn.onclick = function() {
+        const email = emailInput.value;
+        if (!email) {
+            showStatus('请先填写邮箱', 'error');
+            return;
+        }
+
+        // 简单邮箱格式验证
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showStatus('请输入有效的邮箱地址', 'error');
+            return;
+        }
+
+        sendCodeBtn.disabled = true;
+        sendCodeBtn.textContent = '发送中...';
+
+        fetch('send_code.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: 'email=' + encodeURIComponent(email)
+        })
+        .then(res => res.text())
+        .then(msg => {
+            if (msg === '验证码已发送') {
+                showStatus(msg, 'success');
+                startCountdown();
+                emailCodeInput.setAttribute('required', true);
+            } else {
+                showStatus(msg, 'error');
+                sendCodeBtn.disabled = false;
+                sendCodeBtn.textContent = '发送验证码';
+            }
+        })
+        .catch(err => {
+            showStatus('发送失败，请稍后重试', 'error');
+            sendCodeBtn.disabled = false;
+            sendCodeBtn.textContent = '发送验证码';
+        });
+    };
+
+    // 显示状态消息
+    function showStatus(message, type) {
+        statusDiv.textContent = message;
+        statusDiv.className = type;
+        statusDiv.style.display = 'block';
+        setTimeout(() => {
+            statusDiv.style.display = 'none';
+        }, 3000);
     }
-}
-</script>
+
+    // 倒计时功能
+    function startCountdown() {
+        let countdown = 60;
+        countdownSpan.textContent = `(${countdown}秒后可重新发送)`;
+        const timer = setInterval(() => {
+            countdown--;
+            countdownSpan.textContent = `(${countdown}秒后可重新发送)`;
+            if (countdown <= 0) {
+                clearInterval(timer);
+                countdownSpan.textContent = '';
+                sendCodeBtn.disabled = false;
+                sendCodeBtn.textContent = '发送验证码';
+            }
+        }, 1000);
+    }
+  </script>
+</body>
+</html>
