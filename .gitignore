@@ -1,5 +1,5 @@
 html/app/.venv
 wordpress
 library/account/vendor
-library/account/config
+library/account/config.php
 gallery/assets/image
