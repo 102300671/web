@@ -4,6 +4,7 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: /account/login.php");
     exit();
 }
+$username = $_SESSION['username'] ?? '';  
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +23,9 @@ if (!isset($_SESSION['user_id'])) {
       <ul>
         <li><a href="crypto/index.php">rsa</a></li>
         <li><a href="web/index.php">web</a></li>
+        <?php if ($username === 'root'): ?>
+        <li><a href="/editor.php">编辑</a></li>
+        <?php endif; ?>
       </ul>
     </main>
 </body>

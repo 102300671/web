@@ -22,7 +22,10 @@
           </div>
           <div class="form-group">
             <label for="password">密码：</label>
-            <input type="password" id="password" name="password" required minlength="8">
+            <div class="password-wrapper">
+              <input type="password" id="password" name="password" required minlength="8">
+              <span class="toggle-password" onclick="togglePasswordVisibility('password')">👁️</span>
+            </div>
             <small>至少8个字符</small>
           </div>
           <div class="form-group">
@@ -124,6 +127,12 @@
             }
         }, 1000);
     }
+// 密码显示切换功能
+function togglePasswordVisibility(inputId) {
+  const input = document.getElementById(inputId);
+  const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+  input.setAttribute('type', type);
+}
   </script>
 </body>
 </html>

@@ -1,0 +1,83 @@
+/* 通用重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 背景和排版 */
+body {
+  height: 100vh;
+  background: linear-gradient(to right, #f6f6f6, #eaeaea);
+  font-family: "Helvetica Neue", sans-serif;
+  color: #444;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 顶部链接栏 */
+.top-bar {
+  width: 100%;
+  background: #fff;
+  padding: 15px 30px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.top-bar .links a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #007BFF;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.top-bar .links a:hover {
+  color: #0056b3;
+}
+
+/* 内容包裹器 */
+.wrapper {
+  text-align: center;
+  max-width: 600px;
+  margin-top: 80px;
+  padding: 40px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+}
+
+/* 标题样式 */
+h1 {
+  font-size: 2.2em;
+  margin-bottom: 20px;
+}
+
+/* 段落样式 */
+p {
+  margin: 15px 0;
+  font-size: 1.1em;
+  line-height: 1.6;
+}
+
+/* 圆圈样式 */
+.circle {
+  width: 80px;
+  height: 80px;
+  background-color: #ddd;
+  border-radius: 50%;
+  margin: 30px auto;
+  transition: background-color 0.5s ease;
+}
+.circle:hover {
+  background-color: #bbb;
+}
+
+/* 页脚样式 */
+footer {
+  margin-top: 40px;
+  font-size: 0.9em;
+  color: #999;
+}

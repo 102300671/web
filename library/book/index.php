@@ -4,6 +4,7 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: /account/login.php");
     exit();
 }
+$username = $_SESSION['username'] ?? '';  
 ?>
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -22,6 +23,9 @@ if (!isset($_SESSION['user_id'])) {
             <h2>作者神力</h2>
             <ul>
                 <li><a href="novel/依存系青梅养成笔记/intro.php">依存系青梅养成笔记</a></li>
+                <?php if ($username === 'root'): ?>
+                <li><a href="/editor.php">编辑</a></li>
+                <?php endif; ?>
             </ul>
         </section>
     </main>

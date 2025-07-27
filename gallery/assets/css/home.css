@@ -1,0 +1,102 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    height: 100vh;
+}
+
+header {
+    background-color: #3498db;
+    color: #fff;
+    padding: 1em 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+main {
+    padding: 20px;
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    text-align: center;
+}
+h1 {
+    color: #333;
+    margin-bottom: 16px;
+}
+p {
+    color: #666;
+    margin-bottom: 32px;
+}
+.btn {
+    display: inline-block;
+    padding: 12px 32px;
+    margin: 0 10px;
+    background: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+.btn:hover {
+    background: #217dbb;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    background-color: #3498db;
+    color: #fff;
+    font-size: 1.0em;
+}
+
+@media (max-width: 480px) {
+    .btn {
+        width: 100%;
+        padding: 12px 0;
+        margin: 10px 0;
+    }
+}
+
+main {
+    padding: 20px;
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 响应式调整 */
+@media (max-width: 480px) {
+    .container {
+        padding: 30px 15px;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    .btn {
+        width: 100%;
+        padding: 12px 0;
+    }
+}

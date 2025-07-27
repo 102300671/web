@@ -21,7 +21,10 @@
         </div>
         <div class="form-group" id="password-group">
           <label for="password">密码：</label>
-          <input type="password" id="password" name="password">
+          <div class="password-wrapper">
+            <input type="password" id="password" name="password">
+            <span class="toggle-password" onclick="togglePasswordVisibility('password')">👁️</span>
+          </div>
         </div>
         <div id="verification-group" style="display: none;">
           <div class="form-group">
@@ -135,6 +138,12 @@
         }
       }, 1000);
     }
+// 密码显示切换功能
+function togglePasswordVisibility(inputId) {
+  const input = document.getElementById(inputId);
+  const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+  input.setAttribute('type', type);
+}
   </script>
 </body>
 </html>
