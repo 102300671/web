@@ -94,6 +94,17 @@ main {
     font-size: 0.85rem;
 }
 
+a {
+    color: #3498db;
+    text-decoration: none;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 /* 按钮样式 */
 button {
     display: block;

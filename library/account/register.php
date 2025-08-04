@@ -42,6 +42,7 @@
           </div>
           <button type="submit">注册</button>
         </form>
+        <a href="login.php">已有账号？去登录</a>
     </div>
   </main>
   <script>

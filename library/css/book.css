@@ -58,6 +58,16 @@ ul li a:hover {
     text-decoration: underline;
 }
 
+a {
+    color: #3498db;
+    text-decoration: none;
+    margin-top: 10px;
+    display: inline-block;
+}
+a:hover {
+    text-decoration: underline;
+}
+
 footer {
     text-align: center;
     padding: 20px;

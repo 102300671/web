@@ -43,16 +43,18 @@ pre {
 }
 
 .directory {
-    margin-top: 20px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    background: #eee;
-    text-align: center;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 8px;
 }
-
 .directory a {
-    display: inline-block;
-    margin: 3px 5px;
+  display: block;
+  padding: 5px 0;
+  color: #333;
+  text-decoration: none;
+}
+.directory a:hover {
+  color: #007bff;
 }
 
 footer {

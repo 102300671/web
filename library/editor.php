@@ -3,10 +3,7 @@
 session_start();
 
 // 检查登录状态
-if (!isset($_SESSION['user_id'])) {
-  header("Location: /account/login.php");
-  exit();
-}
+require_once __DIR__ . '/includes/auth.php';
 
 // 检查权限
 if ($_SESSION['username'] !== 'root') {

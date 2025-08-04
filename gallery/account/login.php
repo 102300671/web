@@ -34,6 +34,7 @@
 
         <button type="submit">登录</button>
       </form>
+      <a href="register.php">没有账号？去注册</a>
     </div>
   </main>
 

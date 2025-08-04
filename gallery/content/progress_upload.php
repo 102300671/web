@@ -109,6 +109,13 @@ function updateJson($file, $newUrl) {
     if (file_exists($file)) {
         $data = json_decode(file_get_contents($file), true) ?: [];
     }
+
+    // 检查是否为 pixiv 图床链接
+    if (preg_match('#^https://i\.pximg\.net/#', $newUrl)) {
+        $encodedUrl = urlencode($newUrl);
+        $newUrl = "/gallery/content/proxy.php?url=$encodedUrl";
+    }
+
     $data[] = $newUrl;
     file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 }
