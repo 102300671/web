@@ -1,73 +1,195 @@
+/* 通用基础样式 */
 body {
-    font-family: Arial, sans-serif;
+    font-family: Arial, "微软雅黑", sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
     color: #333;
 }
 
+/* 头部 */
 header {
     background-color: #3498db;
     color: #fff;
-    padding: 1em 0;
-    text-align: center;
+    padding: 1em 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-header h1 {
-    margin: 0;
+header .logo {
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
 }
 
+header nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+header nav a:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: #fff;
+}
+
+/* 主体内容容器 */
 main {
-    padding: 20px;
     max-width: 800px;
     margin: 20px auto;
+    padding: 20px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-section {
-    margin-bottom: 20px;
-}
-
-section h2 {
-    color: #555;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
+/* 显示方式切换按钮 */
+.layout-toggle {
     margin-bottom: 15px;
-    text-align: center;
+    text-align: right;
 }
 
-ul {
+.layout-toggle span {
+    font-weight: 600;
+    color: #555;
+}
+
+.layout-toggle button {
+    cursor: pointer;
+    border: none;
+    background: #3498db;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-weight: 600;
+    margin-left: 8px;
+    transition: background-color 0.3s;
+}
+
+.layout-toggle button.active,
+.layout-toggle button:hover {
+    background: #2874b5;
+}
+
+/* 作品列表 - 列表布局 */
+ul.work-list {
     list-style: none;
+    margin: 0;
     padding: 0;
 }
 
-ul li {
-    margin-bottom: 10px;
-    text-align: center;
+ul.work-list li {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
 }
 
-ul li a {
-    text-decoration: none;
-    color: #007bff;
-    font-weight: bold;
+ul.work-list li:last-child {
+    border-bottom: none;
 }
 
-ul li a:hover {
-    text-decoration: underline;
+ul.work-list li img {
+    width: 80px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 20px;
+    flex-shrink: 0;
+    background: #eee;
 }
 
-a {
+ul.work-list li .info {
+    flex-grow: 1;
+}
+
+ul.work-list li .info a {
+    font-size: 20px;
     color: #3498db;
+    font-weight: 600;
     text-decoration: none;
-    margin-top: 10px;
-    display: inline-block;
 }
-a:hover {
+
+ul.work-list li .info a:hover {
     text-decoration: underline;
 }
 
+ul.work-list li .info .author {
+    font-size: 14px;
+    color: #888;
+    margin-top: 6px;
+}
+
+/* 作品列表 - 卡片布局 */
+.card-layout ul.work-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 18px;
+}
+
+.card-layout ul.work-list li {
+    flex-direction: column;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+}
+
+.card-layout ul.work-list li:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-layout ul.work-list li img {
+    width: 100%;
+    height: 260px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+}
+
+.card-layout ul.work-list li .info a {
+    font-size: 18px;
+    color: #3498db;
+}
+
+.card-layout ul.work-list li .info .author {
+    font-size: 13px;
+    color: #888;
+    margin-top: 4px;
+}
+
+/* 无封面占位 */
+.no-cover {
+    width: 80px;
+    height: 110px;
+    background: #ddd;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 12px;
+    flex-shrink: 0;
+    margin-right: 20px;
+}
+
+.card-layout .no-cover {
+    width: 100%;
+    height: 260px;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+/* 页脚 */
 footer {
     text-align: center;
     padding: 20px;
@@ -75,4 +197,16 @@ footer {
     background-color: #3498db;
     color: #fff;
     font-size: 0.9em;
+}
+
+/* a 标签全局默认样式 */
+a {
+    color: #3498db;
+    text-decoration: none;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+a:hover {
+    text-decoration: underline;
 }

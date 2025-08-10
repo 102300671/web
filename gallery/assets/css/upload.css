@@ -108,6 +108,16 @@ button[type="submit"]:hover {
   background-color: #2980b9;
 }
 
+.upload-target {
+  margin: 10px 0 20px;
+}
+.upload-target select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
 /* 结果提示 */
 #result {
   padding: 15px;

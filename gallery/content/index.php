@@ -17,7 +17,14 @@ $images = json_decode(file_get_contents('images.json'), true);
 <body>
   <header>
     <h1>图集</h1>
+    <div class="header-actions">
+      <a href="upload.php" class="action-button">上传图片</a>
+      <?php if ($_SESSION['user_id'] == 2): ?>
+        <a href="/editor.php" class="action-button edit-button">编辑</a>
+      <?php endif; ?>
+    </div>
   </header>
+  
   <div class="gallery">
     <?php foreach ($images as $index => $img): ?>
       <img src="<?= htmlspecialchars($img) ?>" data-index="<?= $index ?>" class="thumbnail">
@@ -25,7 +32,7 @@ $images = json_decode(file_get_contents('images.json'), true);
   </div>
 
   <!-- 弹出查看 -->
-  <div id="overlay" style="display: none">
+  <div id="overlay">
     <span id="close">&times;</span>
     <img id="preview" src="">
     <div class="nav">
@@ -33,10 +40,7 @@ $images = json_decode(file_get_contents('images.json'), true);
       <button id="next">→</button>
     </div>
   </div>
-  <a href="upload.php">上传图片</a>
-  <?php if ($_SESSION['user_id'] == 2): ?>
-  <a href="/editor.php">编辑</a>
-  <?php endif; ?>
+  
   <script>
     const thumbnails = document.querySelectorAll('.thumbnail');
     const overlay = document.getElementById('overlay');
@@ -68,3 +72,4 @@ $images = json_decode(file_get_contents('images.json'), true);
   </script>
 </body>
 </html>
+    
