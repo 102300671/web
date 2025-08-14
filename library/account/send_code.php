@@ -4,7 +4,7 @@ require 'vendor/autoload.php';
 require 'config.php';
 
 // 确保日志目录存在
-$log_dir = __DIR__ . '/logs/';
+$log_dir = __DIR__ . '/../logs/';
 if (!is_dir($log_dir)) {
     mkdir($log_dir, 0755, true);
 }

@@ -33,10 +33,10 @@ if (is_dir($novelDir)) {
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>依依家的猫窝 - 小说首页</title>
-    <link rel="stylesheet" href="/css/book.css" />
+    <link rel="stylesheet" href="/css/book.css">
 </head>
 <body>
 <header>
@@ -44,6 +44,9 @@ if (is_dir($novelDir)) {
     <nav>
       <a href="/book">主页</a>
       <a href="/author/manage.php">作品管理</a>
+      <?php if ($username==='root'): ?>
+      <a href="/editor.php">编辑</a>
+      <?php endif; ?>
     </nav>
 </header>
 <main>

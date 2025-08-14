@@ -3,7 +3,7 @@ require 'config.php';
 
 session_start();
 function log_message($message, $level = 'INFO', $debugDetails = '') {
-    $log_file = __DIR__ . '/logs/login.log';
+    $log_file = __DIR__ . '/../logs/login.log';
     $timestamp = date('Y-m-d H:i:s');
     $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
     $log_entry = "[$timestamp] [$level] IP:$ip | $message";

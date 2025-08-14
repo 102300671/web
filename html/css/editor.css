@@ -1,153 +1,482 @@
 /* 基础样式 */
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2c3e50;
+    --success-color: #27ae60;
+    --danger-color: #e74c3c;
+    --light-color: #ecf0f1;
+    --dark-color: #34495e;
+    --text-color: #333;
+    --text-light: #7f8c8d;
+    --border-color: #ddd;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
     line-height: 1.6;
-    color: #333;
-    background-color: #f5f5f5;
+    color: var(--text-color);
+    background-color: #f9f9f9;
     margin: 0;
     padding: 0;
 }
 
 /* 容器布局 */
 .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 20px;
 }
 
 /* 头部样式 */
 .header {
-    background-color: #2c3e50;
+    background-color: var(--secondary-color);
     color: white;
-    padding: 15px 20px;
-    border-radius: 5px;
+    padding: 15px 25px;
+    border-radius: 8px;
     margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .header h2 {
     margin: 0;
     font-size: 1.5em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* 面包屑导航 */
+.breadcrumbs {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    padding: 8px 15px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: var(--shadow);
+}
+
+.breadcrumbs a {
+    color: var(--primary-color);
+    text-decoration: none;
+    padding: 3px 5px;
+    border-radius: 3px;
+}
+
+.breadcrumbs a:hover {
+    background-color: #f0f0f0;
+}
+
+.breadcrumbs .separator {
+    color: var(--text-light);
+    margin: 0 5px;
 }
 
 /* 消息提示 */
 .message {
-    padding: 10px 15px;
+    padding: 12px 15px;
     margin: 10px 0;
-    border-radius: 4px;
+    border-radius: 5px;
     font-weight: bold;
+    box-shadow: var(--shadow);
 }
 
 .message.success {
     background-color: #d4edda;
     color: #155724;
-    border: 1px solid #c3e6cb;
+    border-left: 4px solid var(--success-color);
 }
 
 .message.error {
     background-color: #f8d7da;
     color: #721c24;
-    border: 1px solid #f5c6cb;
+    border-left: 4px solid var(--danger-color);
 }
 
 /* 文件浏览器 */
 .file-browser {
     background-color: white;
-    border-radius: 5px;
+    border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 25px;
+}
+
+.file-browser-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .file-browser h3 {
-    margin-top: 0;
-    color: #2c3e50;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
+    margin: 0;
+    color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+}
+
+.search-box input {
+    padding: 8px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    width: 250px;
+    transition: all 0.3s;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
 .file-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    overflow: hidden;
 }
 
 .file-list li {
-    padding: 8px 0;
-    border-bottom: 1px solid #eee;
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s;
 }
 
 .file-list li:last-child {
     border-bottom: none;
 }
 
+.file-list li { position: relative; }
+.file-list li:hover {
+    background-color: #f8f9fa;
+}
+
 .file-list a {
-    color: #3498db;
+    color: var(--text-color);
     text-decoration: none;
-    display: block;
-    padding: 5px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .file-list a:hover {
+    color: var(--primary-color);
+}
+
+.file-list .directory a {
     color: #2980b9;
+}
+
+.file-list .editable a:hover {
     text-decoration: underline;
+}
+
+.file-list small {
+    color: var(--text-light);
+    font-size: 0.85em;
+    margin-left: 5px;
+}
+
+.file-list i {
+    width: 20px;
+    text-align: center;
+    color: #7f8c8d;
+}
+
+.file-list .directory i {
+    color: #3498db;
+}
+
+.file-list .parent-dir i {
+    color: var(--secondary-color);
 }
 
 /* 文件编辑器 */
 .editor-container {
     background-color: white;
-    border-radius: 5px;
-    padding: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
 }
 
-.editor-container h3 {
-    margin-top: 0;
-    color: #2c3e50;
+.editor-header {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.editor-header h3 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.editor-actions-top {
+    display: flex;
+    gap: 10px;
+}
+
+.editor-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.editor-toolbar {
+    background-color: #f8f9fa;
+    padding: 8px 15px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    gap: 8px;
+}
+
+.tool-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    color: var(--text-color);
+    transition: all 0.2s;
+}
+
+.tool-btn:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
 }
 
 .editor-form textarea {
     width: 100%;
-    height: 500px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-family: 'Consolas', 'Monaco', monospace;
+    min-height: 500px;
+    padding: 15px;
+    border: none;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
     font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.6;
     resize: vertical;
+    background-color: #f8f9fa;
+    color: #333;
+    tab-size: 4;
+}
+
+.editor-form textarea:focus {
+    outline: none;
+    background-color: white;
 }
 
 .editor-actions {
-    margin-top: 15px;
+    background-color: #f8f9fa;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border-color);
 }
 
+.file-info {
+    color: var(--text-light);
+    font-size: 0.9em;
+}
+
+/* 按钮样式 */
 .btn {
     padding: 8px 15px;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
-    transition: background-color 0.3s;
+    font-weight: 500;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .btn-primary {
-    background-color: #3498db;
+    background-color: var(--primary-color);
     color: white;
 }
 
 .btn-primary:hover {
     background-color: #2980b9;
+    transform: translateY(-1px);
 }
 
 .btn-secondary {
     background-color: #95a5a6;
     color: white;
-    margin-left: 10px;
 }
 
 .btn-secondary:hover {
     background-color: #7f8c8d;
+    transform: translateY(-1px);
+}
+
+/* 文件操作工具栏 */
+.file-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.btn-action {
+    background-color: #3498db;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s;
+}
+
+.btn-action:hover {
+    background-color: #2980b9;
+    transform: translateY(-1px);
+}
+
+/* 模态框样式 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.modal.active {
+    display: block;
+    opacity: 1;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+.modal h3 {
+    margin-top: 0;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    color: #aaa;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #333;
+}
+
+/* 表单样式 */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* 文件操作菜单 */
+.file-actions-menu {
+    display: none;
+    position: absolute;
+    right: 15px;
+    z-index: 10;
+}
+
+.file-actions-menu {
+    display: flex !important;
+    gap: 8px;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    padding: 4px 0;
+}
+
+.file-list li:hover .file-actions-menu {
+    display: flex;
+    gap: 5px;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    color: #7f8c8d;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.action-btn:hover {
+    color: #3498db;
+    background-color: #f0f0f0;
 }
 
 /* 响应式设计 */
@@ -156,7 +485,36 @@ body {
         padding: 10px;
     }
     
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .file-browser-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .search-box input {
+        width: 100%;
+    }
+    
     .editor-form textarea {
-        height: 300px;
+        min-height: 300px;
+    }
+    
+    .editor-actions {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+    
+    .modal-content {
+        margin: 20% auto;
+    }
+    
+    .file-actions {
+        flex-direction: column;
     }
 }

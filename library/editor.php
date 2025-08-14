@@ -575,4 +575,4 @@ function get_file_icon($ext) {
   ? '<i class="' . $icons[$ext] . '"></i>'
   : '<i class="fas fa-file"></i>';
 }
-?>?>
+?>

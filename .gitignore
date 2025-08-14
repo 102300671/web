@@ -3,3 +3,13 @@ wordpress
 library/account/vendor
 library/account/config.php
 gallery/assets/image
+webdav/*
+!webdav/.gitkeep
+library/logs/*
+!library/logs/.gitkeep
+gallery/logs/*
+!gallery/logs/.gitkeep
+html/logs/*
+!html/logs/.gitkeep
+crypto/logs/*
+!crypto/logs/.gitkeep

@@ -3,7 +3,7 @@ require 'vendor/autoload.php';
 require 'config.php';
 
 function log_message($message, $level = 'INFO', $debugDetails = '') {
-    $log_file = __DIR__ . '/logs/register.log';
+    $log_file = __DIR__ . '/../logs/register.log';
     $timestamp = date('Y-m-d H:i:s');
     $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
     $log_entry = "[$timestamp] [$level] IP:$ip | $message";
