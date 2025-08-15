@@ -19,7 +19,7 @@ $images = json_decode(file_get_contents('images.json'), true);
     <h1>图集</h1>
     <div class="header-actions">
       <a href="upload.php" class="action-button">上传图片</a>
-      <?php if ($_SESSION['user_id'] == 2): ?>
+      <?php if ($_SESSION['user_id'] == 6): ?>
         <a href="/editor.php" class="action-button edit-button">编辑</a>
       <?php endif; ?>
     </div>
