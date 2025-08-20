@@ -5,35 +5,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $qq = trim($_POST['qq'] ?? '');
     $group_name = trim($_POST['group_name'] ?? '');
     $password = $_POST['password'] ?? '';
+    $avatarPath = null;
 
-    // 验证输入格式
+    // 
     if (!preg_match('/^[1-9][0-9]{4,}$/', $qq)) {
-        exit('无效的QQ号格式');
+        exit('QQ');
     }
     if (empty($group_name) || strlen($group_name) > 20) {
-        exit('群内名称不能为空且最多20字');
+        exit('20');
     }
     if (strlen($password) < 8) {
-        exit('密码长度至少为8个字符');
+        exit('8');
     }
 
-    // 检查是否已存在
+    // 
     $stmt = $pdo->prepare('SELECT id FROM users WHERE qq = ?');
     $stmt->execute([$qq]);
     if ($stmt->fetch()) {
-        exit('该QQ号已注册');
+        exit('QQ');
     }
 
-    // 密码哈希
+    // 
+    if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+        $allowed = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/gif' => 'gif'];
+        $fileType = mime_content_type($_FILES['avatar']['tmp_name']);
+        $fileSize = $_FILES['avatar']['size'];
+
+        if (!array_key_exists($fileType, $allowed)) {
+            exit('');
+        }
+        if ($fileSize > 2 * 1024 * 1024) { // 2MB 
+            exit('2MB');
+        }
+
+        $ext = $allowed[$fileType];
+        $uploadDir = __DIR__ . '/uploads/avatars/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+
+        $fileName = uniqid('avatar_') . '.' . $ext;
+        $targetPath = $uploadDir . $fileName;
+
+        if (move_uploaded_file($_FILES['avatar']['tmp_name'], $targetPath)) {
+            // 
+            $avatarPath = '/account/uploads/avatars/' . $fileName;
+        } else {
+            exit('');
+        }
+    }
+
+    // 
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    // 写入数据库
-    $stmt = $pdo->prepare('INSERT INTO users (qq, group_name, password) VALUES (?, ?, ?)');
-    if ($stmt->execute([$qq, $group_name, $hashedPassword])) {
+    // 
+    $stmt = $pdo->prepare('INSERT INTO users (qq, group_name, password, avatar) VALUES (?, ?, ?, ?)');
+    if ($stmt->execute([$qq, $group_name, $hashedPassword, $avatarPath])) {
         header('Location: login.php');
+        exit;
     } else {
-        echo '注册失败，请稍后再试';
+        echo '';
     }
 } else {
-    echo '无效请求';
+    echo '';
 }

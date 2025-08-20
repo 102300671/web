@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
   <meta charset="UTF-8">
   <title>注册</title>
@@ -15,7 +15,7 @@
       <h2>注册</h2>
       <div id="status"></div>
 
-      <form method="post" action="progress_register.php">
+      <form method="post" action="progress_register.php" enctype="multipart/form-data">
         <!-- QQ号 -->
         <div class="form-group">
           <label for="qq">QQ号：</label>
@@ -40,6 +40,16 @@
           <small>至少8个字符</small>
         </div>
 
+        <!-- 头像上传 -->
+        <div class="form-group">
+          <label for="avatar">头像：</label>
+          <input type="file" id="avatar" name="avatar" accept="image/*">
+          <small>支持 jpg/png/gif，最大 2MB</small>
+          <div class="avatar-preview">
+            <img id="avatarPreview" class="avatar-circle" src="" alt="头像预览">
+          </div>
+        </div>
+
         <button type="submit">注册</button>
       </form>
       <a href="login.php">已有账号？去登录</a>
@@ -47,8 +57,14 @@
   </main>
 
   <footer>
-    &copy; <?php echo date('Y'); ?> 依依家的猫窝
+    &copy; <?= date('Y') ?> 依依家的猫窝
   </footer>
+
+  <!-- 头像预览弹窗 -->
+  <div id="avatarModal">
+    <span id="closeModal">&times;</span>
+    <img id="modalImg" src="">
+  </div>
 
   <script>
     function togglePasswordVisibility(inputId) {
@@ -56,6 +72,37 @@
       const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
       input.setAttribute('type', type);
     }
+
+    // 注册页头像预览
+    const avatarInput = document.getElementById('avatar');
+    const avatarPreview = document.getElementById('avatarPreview');
+    avatarInput.addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          avatarPreview.src = e.target.result;
+          avatarPreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      } else {
+        avatarPreview.src = '';
+        avatarPreview.style.display = 'none';
+      }
+    });
+
+    // 弹窗点击预览
+    const avatarModal = document.getElementById('avatarModal');
+    const modalImg = document.getElementById('modalImg');
+    const closeModal = document.getElementById('closeModal');
+    avatarPreview.addEventListener('click', () => {
+      avatarModal.style.display = 'flex';
+      modalImg.src = avatarPreview.src;
+    });
+    closeModal.addEventListener('click', () => avatarModal.style.display = 'none');
+    avatarModal.addEventListener('click', e => {
+      if (e.target === avatarModal) avatarModal.style.display = 'none';
+    });
   </script>
 </body>
 </html>
