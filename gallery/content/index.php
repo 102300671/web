@@ -13,7 +13,7 @@ $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // 如果没上传过头像，用默认头像
-$avatar = $user && !empty($user['avatar']) ? $user['avatar'] : '/assets/images/default-avatar.png';
+$avatar = $user && !empty($user['avatar']) ? $user['avatar'] : '/account/avatars/default-avatar.png';
 
 // 读取图集
 $images = json_decode(file_get_contents('images.json'), true);
@@ -31,6 +31,7 @@ $images = json_decode(file_get_contents('images.json'), true);
     <h1>图集</h1>
     <div class="header-actions">
       <a href="upload.php" class="action-button">上传图片</a>
+
       <?php if ($_SESSION['user_id'] == 2): ?>
       <a href="/editor.php" class="action-button edit-button">编辑</a>
       <?php endif; ?>

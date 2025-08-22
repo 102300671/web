@@ -31,7 +31,7 @@ if (!$user) {
   <main>
     <div class="profile-container">
       <div class="profile-avatar">
-        <img src="<?= htmlspecialchars($user['avatar'] ?: '/assets/images/default-avatar.png') ?>"
+        <img src="<?= htmlspecialchars($user['avatar'] ?: '/account/avatars/default-avatar.png') ?>"
         alt="头像" class="avatar-circle" id="profileAvatar">
       </div>
 

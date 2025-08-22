@@ -16,3 +16,5 @@ try {
 } catch (\PDOException $e) {
     exit("数据库连接失败: " . $e->getMessage());
 }
+
+define('DEBUG_MODE', true); // true 为调试模式，false 为生产模式
