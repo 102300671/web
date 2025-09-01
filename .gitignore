@@ -2,7 +2,10 @@ html/app/.venv
 wordpress
 library/account/vendor
 library/account/config.php
-gallery/assets/image
+gallery/assets/image/*
+!gallery/assets/image/.gitkeep
+gallery/assets/video/*
+!gallery/assets/video/.gitkeep
 webdav/*
 !webdav/.gitkeep
 library/logs/*
