@@ -77,7 +77,17 @@ EOD;
 <div class='start'><a href='index.php'>📖 开始阅读</a></div>
 
 <?php
-\$hasChapters = (is_dir(\$chapterDir) && count(glob(\$chapterDir . "/*.php")) > 0);
+// 检查是否存在支持的章节文件
+\$supportedFormats = ['txt', 'md', 'html', 'doc', 'docx'];
+\$hasChapters = false;
+if (is_dir(\$chapterDir)) {
+    foreach (\$supportedFormats as \$format) {
+        if (count(glob(\$chapterDir . "/*.". \$format)) > 0) {
+            \$hasChapters = true;
+            break;
+        }
+    }
+}
 
 if (\$hasChapters) {
     include ROOT_DIR . '/includes/chapter.php';
@@ -137,12 +147,12 @@ if (isset(\$files) && \$chapterIndex >= count(\$files)) \$chapterIndex = count(\
 \$currentFile = !empty(\$files) ? \$files[\$chapterIndex] : null;
 
 // 读取文件
-\$lines = [];
-\$totalLines = 0;
-if (\$currentFile && file_exists(\$currentFile)) {
-    \$lines = file(\$currentFile, FILE_IGNORE_NEW_LINES);
-    \$totalLines = count(\$lines);
-}
+    \$lines = [];
+    \$totalLines = 0;
+    if (\$currentFile && file_exists(\$currentFile)) {
+        \$lines = readChapterContent(\$currentFile);
+        \$totalLines = count(\$lines);
+    }
 \$totalPages = max(1, ceil(\$totalLines / \$linesPerPage));
 
 // 页码检查
@@ -152,7 +162,12 @@ if (\$page > \$totalPages) \$page = \$totalPages;
 // 当前页内容
 \$startLine = (\$page - 1) * \$linesPerPage;
 \$currentLines = array_slice(\$lines, \$startLine, \$linesPerPage);
-\$currentLines = array_map('htmlspecialchars', \$currentLines);
+
+// 只对TXT文件应用HTML转义，保留HTML和Markdown的原始格式
+\$ext = strtolower(pathinfo(\$currentFile, PATHINFO_EXTENSION));
+if (\$ext === 'txt') {
+    \$currentLines = array_map('htmlspecialchars', \$currentLines);
+}
 
 // 当前章节标题
 \$chapterTitle = !empty(\$chapterTitles) ? \$chapterTitles[\$chapterIndex] : '暂无章节';
@@ -181,7 +196,17 @@ require_once ROOT_DIR . '/includes/navigation.php';
         <?php if (!empty(\$files)): ?>
             <h2><?= htmlspecialchars(\$chapterTitle) ?></h2>
             <?= generateNavigation(\$chapterIndex, count(\$files), \$page, \$totalPages) ?>
-            <pre><?= implode("\n", \$currentLines) ?></pre>
+            <div class="chapter-content">
+                <!-- 对于HTML内容，直接输出；对于其他内容，使用<pre>标签保持格式 -->
+                <?php 
+                    \$ext = strtolower(pathinfo(\$currentFile, PATHINFO_EXTENSION));
+                    if (\$ext === 'html') {
+                        echo implode("\n", \$currentLines);
+                    } else {
+                        echo '<pre>' . implode("\n", \$currentLines) . '</pre>';
+                    }
+                ?>
+            </div>
             <?= generateNavigation(\$chapterIndex, count(\$files), \$page, \$totalPages) ?>
         <?php else: ?>
             <div class='no-content'>

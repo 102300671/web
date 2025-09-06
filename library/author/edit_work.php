@@ -83,7 +83,17 @@ EOD;
 <div class='start'><a href='index.php'>📖 开始阅读</a></div>
 
 <?php
-\$hasChapters = (is_dir(\$chapterDir) && count(glob(\$chapterDir . "/*.php")) > 0);
+// 检查是否存在支持的章节文件
+\$supportedFormats = ['txt', 'md', 'html', 'doc', 'docx'];
+\$hasChapters = false;
+if (is_dir(\$chapterDir)) {
+    foreach (\$supportedFormats as \$format) {
+        if (count(glob(\$chapterDir . "/*." . \$format)) > 0) {
+            \$hasChapters = true;
+            break;
+        }
+    }
+}
 if (\$hasChapters) {
     include ROOT_DIR . '/includes/chapter.php';
     include ROOT_DIR . '/includes/directory.php';

@@ -51,6 +51,60 @@ pre {
     font-size: 20px;
 }
 
+/* 章节内容样式 */
+.chapter-content {
+    margin: 20px auto;
+    max-width: 800px;
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+/* Markdown样式支持 */
+.chapter-content h2 {
+    color: #3498db;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+.chapter-content h3 {
+    color: #2980b9;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.chapter-content strong {
+    font-weight: bold;
+}
+
+.chapter-content em {
+    font-style: italic;
+}
+
+.chapter-content p {
+    margin-bottom: 15px;
+    text-indent: 2em;
+}
+
+/* HTML内容样式 */
+.chapter-content a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.chapter-content a:hover {
+    text-decoration: underline;
+}
+
+.chapter-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 15px auto;
+    border-radius: 4px;
+}
+
 .nav {
     margin-top: 10px;
     text-align: center;

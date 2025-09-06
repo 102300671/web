@@ -3,7 +3,21 @@ require_once __DIR__ . '/../includes/auth.php';
 $workName = $_GET['work'] ?? '';
 $workDir = __DIR__ . "/../book/novel/{$workName}";
 $chapterDir = "{$workDir}/chapters";
-$chapters = glob("{$chapterDir}/*.txt");
+
+// 支持的文件格式
+$supportedFormats = ['txt', 'md', 'html', 'doc', 'docx'];
+
+// 扫描所有支持格式的章节文件
+$chapters = [];
+foreach ($supportedFormats as $format) {
+    $formatChapters = glob("{$chapterDir}/*.$format");
+    if ($formatChapters) {
+        $chapters = array_merge($chapters, $formatChapters);
+    }
+}
+
+// 按文件名排序
+natcasesort($chapters);
 
 // 处理章节删除
 if (isset($_GET['delete_chapter'])) {
@@ -21,7 +35,7 @@ if (isset($_GET['delete_chapter'])) {
 <div class="chapters-list">
     <?php foreach ($chapters as $chapter): ?>
     <div class="chapter-item">
-        <span><?= basename($chapter, '.txt') ?></span>
+        <span><?= pathinfo($chapter, PATHINFO_FILENAME) ?></span>
         <div class="chapter-actions">
             <a href="edit_chapter.php?work=<?= $workName ?>&chapter=<?= basename($chapter) ?>">编辑</a>
             <a href="?work=<?= $workName ?>&delete_chapter=<?= basename($chapter) ?>" onclick="return confirm('确定删除？')">删除</a>

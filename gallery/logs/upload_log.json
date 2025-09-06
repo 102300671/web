@@ -88,5 +88,19 @@
         "group_name": "喵~谦~",
         "ip": "::1",
         "timestamp": "2025-09-01 03:34:24"
+    },
+    {
+        "type": "iframe_url",
+        "content": "https://www.kapwing.com/e/68b53f5a69a986521bfc4e91",
+        "group_name": "喵~谦~",
+        "ip": "::1",
+        "timestamp": "2025-09-01 09:57:09"
+    },
+    {
+        "type": "iframe_code",
+        "content": "<div style=\"height: 0; padding-bottom: calc(54.05%); position:relative; width: 100%;\"><iframe allow=\"autoplay; gyroscope;\" allowfullscreen height=\"100%\" referrerpolicy=\"strict-origin\" src=\"https://www.kapwing.com/e/68b53f5a69a986521bfc4e91\" style=\"border:0; height:100%; left:0; overflow:hidden; position:absolute; top:0; width:100%\" title=\"Embedded content made on Kapwing\" width=\"100%\"></iframe></div><p style=\"font-size: 12px; text-align: right;\">Video edited on <a href=\"https://www.kapwing.com/video-editor\">Kapwing</a></p>",
+        "group_name": "喵~谦~",
+        "ip": "::1",
+        "timestamp": "2025-09-01 10:06:42"
     }
 ]
